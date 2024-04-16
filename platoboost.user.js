@@ -4,7 +4,7 @@
 // @homepageURL  https://discord.gg/keybypass
 // @description  bypasses Delta and Hydrogen on Platoboost
 // @author       d15c0rdh4ckr | https://discord.com/users/768868463459434517
-// @version      8
+// @version      9
 
 // @run-at       document-start
 
@@ -130,7 +130,7 @@ module.exports = {
 /***/ ((module) => {
 
 "use strict";
-module.exports = {"currentVersion":8};
+module.exports = {"currentVersion":9};
 
 /***/ })
 
@@ -232,15 +232,13 @@ if (path === "/a/2569") {
 (async function () {
     let initData = await platoboostApiRoutes.init();
     if (initData.key) {
-        setTimeout(() => {
+        setInterval(() => {
             (0,_util_js__WEBPACK_IMPORTED_MODULE_1__.showMessage)(
                 'Bypassed by <a href="https://discord.gg/keybypass">discord.gg/keybypass</a>'
             );
-        }, 2500);
+        }, 1000);
         return;
     }
-
-    document.getElementsByTagName("button")[0].remove();
 
     let response = await platoboostApiRoutes.start({
         captcha: await (0,_util_js__WEBPACK_IMPORTED_MODULE_1__.getCapthaSolution)("turnstile"),
@@ -256,6 +254,8 @@ if (path === "/a/2569") {
         window.location.reload();
         return;
     }
+    
+    document.getElementsByTagName("button")[0].remove();
 
     let bypassedUrl, token;
 
