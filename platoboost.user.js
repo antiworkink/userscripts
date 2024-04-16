@@ -4,10 +4,11 @@
 // @homepageURL  https://discord.gg/keybypass
 // @description  bypasses Delta and Hydrogen on Platoboost
 // @author       d15c0rdh4ckr | https://discord.com/users/768868463459434517
-// @version      9
+// @version      10
 
 // @run-at       document-start
 
+// @match        https://gateway.platoboost.com/b
 // @match        https://gateway.platoboost.com/a/8?id=*
 // @match        https://gateway.platoboost.com/a/2569?id=*
 // @connect      raw.githubusercontent.com
@@ -29,12 +30,12 @@
 
 const { currentVersion } = __webpack_require__(219);
 
-const oldDocHeadAppendChild = document.head.appendChild;
+const docHeadAppendChild = document.head.appendChild;
 document.head.appendChild = function (element) {
     if (element.src && element.src.includes("workink")) {
         return;
     }
-    return oldDocHeadAppendChild.call(document.head, element);
+    return docHeadAppendChild.call(document.head, element);
 };
 
 GM.xmlHttpRequest({
@@ -43,11 +44,23 @@ GM.xmlHttpRequest({
     onload: function (response) {
         response = JSON.parse(response.responseText);
         if (currentVersion != response.platoboost) {
-            alert('There is a new version of the script available. Please update to the latest version.');
-            window.location.replace("https://github.com/antiworkink/userscripts/raw/main/platoboost.user.js");
+            alert(
+                "There is a new version of the script available. Please update to the latest version."
+            );
+            window.location.replace(
+                "https://github.com/antiworkink/userscripts/raw/main/platoboost.user.js"
+            );
         }
     },
 });
+
+const url = new URL(window.location.href);
+if (url.pathname == "/b") {
+    let urlToBypass = prompt("please enter your link to bypass:");
+    urlToBypass = new URL(urlToBypass);
+    history.replaceState({}, "", urlToBypass.pathname + urlToBypass.search);
+}
+
 
 /***/ }),
 
@@ -130,7 +143,7 @@ module.exports = {
 /***/ ((module) => {
 
 "use strict";
-module.exports = {"currentVersion":9};
+module.exports = /*#__PURE__*/JSON.parse('{"currentVersion":10}');
 
 /***/ })
 
