@@ -44,7 +44,7 @@ GM.xmlHttpRequest({
         response = JSON.parse(response.responseText);
         if (currentVersion != response.platoboost) {
             alert('There is a new version of the script available. Please update to the latest version.');
-            window.location.replace("https://update.greasyfork.org/scripts/492623/Delta%20and%20Hydrogen%20bypass.user.js");
+            window.location.replace("https://github.com/antiworkink/userscripts/raw/main/platoboost.user.js");
         }
     },
 });
