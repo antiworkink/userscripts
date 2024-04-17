@@ -4,11 +4,12 @@
 // @homepageURL  https://discord.gg/keybypass
 // @description  bypasses Delta and Hydrogen on Platoboost
 // @author       d15c0rdh4ckr | https://discord.com/users/768868463459434517
-// @version      10
+// @version      11
 
 // @run-at       document-start
 
-// @match        https://gateway.platoboost.com/b
+// @match        https://plato-gateway-static.pages.dev/b
+// @match        https://gateway.platoboost.com/cdn-cgi/trace?url=*
 // @match        https://gateway.platoboost.com/a/8?id=*
 // @match        https://gateway.platoboost.com/a/2569?id=*
 // @connect      raw.githubusercontent.com
@@ -26,9 +27,11 @@
 /******/ 	var __webpack_modules__ = ({
 
 /***/ 224:
-/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
+/***/ ((__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) => {
 
-const { currentVersion } = __webpack_require__(219);
+"use strict";
+/* harmony import */ var _config_json__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(219);
+
 
 const docHeadAppendChild = document.head.appendChild;
 document.head.appendChild = function (element) {
@@ -43,22 +46,34 @@ GM.xmlHttpRequest({
     url: `https://raw.githubusercontent.com/antiworkink/userscripts/main/version.json?update=${Date.now()}`,
     onload: function (response) {
         response = JSON.parse(response.responseText);
-        if (currentVersion != response.platoboost) {
-            alert(
-                "There is a new version of the script available. Please update to the latest version."
-            );
-            window.location.replace(
-                "https://github.com/antiworkink/userscripts/raw/main/platoboost.user.js"
-            );
+        if (_config_json__WEBPACK_IMPORTED_MODULE_0__/* .currentVersion */ .Y != response.platoboost) {
+            alert("There is a new version of the script available. Please update to the latest version.");
+            window.location.replace("https://github.com/antiworkink/userscripts/raw/main/platoboost.user.js");
         }
     },
 });
 
+if (window.location.href == "https://plato-gateway-static.pages.dev/b") {
+    let urlToBypass;
+    while (!urlToBypass) {
+        urlToBypass = prompt("please enter your Delta or Hydrogen to bypass:");
+    }
+    window.location.replace(
+        `https://gateway.platoboost.com/cdn-cgi/trace?url=${encodeURIComponent(urlToBypass)}\
+        &data=${encodeURIComponent(document.documentElement.innerHTML)}`
+    );
+}
+
 const url = new URL(window.location.href);
-if (url.pathname == "/b") {
-    let urlToBypass = prompt("please enter your link to bypass:");
+if (url.pathname == "/cdn-cgi/trace") {
+    let urlToBypass = url.searchParams.get("url");
     urlToBypass = new URL(urlToBypass);
     history.replaceState({}, "", urlToBypass.pathname + urlToBypass.search);
+    document.documentElement.innerHTML = url.searchParams.get("data");
+    let scriptUrl = document.querySelector("script").src;
+    scriptUrl = new URL(scriptUrl);
+    scriptUrl = scriptUrl.pathname;
+    eval('import(document.querySelector("script").src)');
 }
 
 
@@ -143,7 +158,7 @@ module.exports = {
 /***/ ((module) => {
 
 "use strict";
-module.exports = /*#__PURE__*/JSON.parse('{"currentVersion":10}');
+module.exports = {"Y":11};
 
 /***/ })
 
@@ -209,7 +224,6 @@ var __webpack_exports__ = {};
 (() => {
 "use strict";
 /* harmony import */ var _QOL_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(224);
-/* harmony import */ var _QOL_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_QOL_js__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _util_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(94);
 /* harmony import */ var _util_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_util_js__WEBPACK_IMPORTED_MODULE_1__);
 
